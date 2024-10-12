@@ -28,6 +28,7 @@
 package com.tencent.devops.process.utils
 
 import com.tencent.devops.common.api.util.DHUtil
+import com.tencent.devops.repository.pojo.CodeGiteeRepository
 import com.tencent.devops.repository.pojo.CodeP4Repository
 import com.tencent.devops.repository.pojo.CodeSvnRepository
 import com.tencent.devops.repository.pojo.Repository
@@ -77,6 +78,9 @@ object CredentialUtils {
 
             repository is CodeP4Repository && credentialType == CredentialType.USERNAME_PASSWORD ->
                 return Credential(username = credentials[0], privateKey = "", passPhrase = credentials[1])
+
+            repository is CodeGiteeRepository && credentialType == CredentialType.USERNAME_PASSWORD ->
+                return Credential(username = credentials[0], privateKey = credentials[1], passPhrase = null)
 
             else -> {
                 val privateKey = credentials[0]

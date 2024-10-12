@@ -131,4 +131,10 @@ class GitConfig {
 
     @Value("\${scm.external.tGit.hookSecret:}")
     val tGitHookSecret: String = ""
+
+    @Value("\${scm.external.gitee.apiUrl:}")
+    val giteeApiUrl: String = ""
+
+    @Value("\${scm.external.gitee.giteeHookUrl:}")
+    val giteeHookUrl: String = ""
 }

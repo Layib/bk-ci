@@ -33,6 +33,7 @@ import com.tencent.devops.common.api.pojo.ErrorCode
 import com.tencent.devops.common.api.pojo.ErrorType
 import com.tencent.devops.common.service.utils.SpringContextUtil
 import com.tencent.devops.scm.code.CodeGitScmImpl
+import com.tencent.devops.scm.code.CodeGiteeScmImpl
 import com.tencent.devops.scm.code.CodeGitlabScmImpl
 import com.tencent.devops.scm.code.CodeSvnScmImpl
 import com.tencent.devops.scm.code.CodeTGitScmImpl
@@ -148,6 +149,24 @@ object ScmOauthFactory {
                     url = url,
                     privateKey = privateKey,
                     passPhrase = passPhrase,
+                    token = token,
+                    gitConfig = gitConfig,
+                    event = event
+                )
+            }
+            ScmType.CODE_GITEE -> {
+                if (token == null) {
+                    throw TaskExecuteException(
+                        errorCode = ErrorCode.USER_INPUT_INVAILD,
+                        errorType = ErrorType.USER,
+                        errorMsg = "The gitee access token is null"
+                    )
+                }
+                val gitConfig = SpringContextUtil.getBean(GitConfig::class.java)
+                CodeGiteeScmImpl(
+                    projectName = projectName,
+                    branchName = branchName,
+                    url = url,
                     token = token,
                     gitConfig = gitConfig,
                     event = event

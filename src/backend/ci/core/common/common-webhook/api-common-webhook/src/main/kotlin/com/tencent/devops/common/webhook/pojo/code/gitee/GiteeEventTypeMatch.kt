@@ -25,29 +25,14 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.tencent.devops.process.engine.service.code
+package com.tencent.devops.common.webhook.pojo.code.gitee
 
-import com.tencent.devops.common.webhook.pojo.code.git.GitEvent
-import com.tencent.devops.common.webhook.pojo.code.gitee.GiteeEvent
-import com.tencent.devops.common.webhook.pojo.code.github.GithubEvent
-import com.tencent.devops.common.webhook.pojo.code.p4.P4Event
-import com.tencent.devops.common.webhook.pojo.code.svn.SvnCommitEvent
-import com.tencent.devops.common.webhook.service.code.matcher.ScmWebhookMatcher
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.tencent.devops.common.webhook.pojo.code.CodeWebhookEvent
 
-interface ScmWebhookMatcherBuilder {
-
-    fun createGitWebHookMatcher(event: GitEvent): ScmWebhookMatcher
-
-    fun createSvnWebHookMatcher(
-        event: SvnCommitEvent
-    ): ScmWebhookMatcher
-
-    fun createGitlabWebHookMatcher(event: GitEvent): ScmWebhookMatcher
-
-    fun createGithubWebHookMatcher(event: GithubEvent): ScmWebhookMatcher
-
-    fun createP4WebHookMatcher(event: P4Event): ScmWebhookMatcher
-
-    fun createGiteeWebHookMatcher(event: GiteeEvent): ScmWebhookMatcher
-
-}
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class GiteeEventTypeMatch(
+    @get:JsonProperty("hook_name") @field:JsonProperty("hook_name")
+    val hookName: String?,
+) : CodeWebhookEvent

@@ -28,10 +28,12 @@
 package com.tencent.devops.process.engine.service.code
 
 import com.tencent.devops.common.webhook.pojo.code.git.GitEvent
+import com.tencent.devops.common.webhook.pojo.code.gitee.GiteeEvent
 import com.tencent.devops.common.webhook.pojo.code.github.GithubEvent
 import com.tencent.devops.common.webhook.pojo.code.p4.P4Event
 import com.tencent.devops.common.webhook.pojo.code.svn.SvnCommitEvent
 import com.tencent.devops.common.webhook.service.code.matcher.GitWebHookMatcher
+import com.tencent.devops.common.webhook.service.code.matcher.GiteeWebHookMatcher
 import com.tencent.devops.common.webhook.service.code.matcher.GithubWebHookMatcher
 import com.tencent.devops.common.webhook.service.code.matcher.GitlabWebHookMatcher
 import com.tencent.devops.common.webhook.service.code.matcher.P4WebHookMatcher
@@ -52,4 +54,6 @@ class ScmWebhookMatcherBuilderImpl : ScmWebhookMatcherBuilder {
     override fun createGithubWebHookMatcher(event: GithubEvent): ScmWebhookMatcher = GithubWebHookMatcher(event)
 
     override fun createP4WebHookMatcher(event: P4Event): ScmWebhookMatcher = P4WebHookMatcher(event)
+
+    override fun createGiteeWebHookMatcher(event: GiteeEvent): ScmWebhookMatcher = GiteeWebHookMatcher(event)
 }

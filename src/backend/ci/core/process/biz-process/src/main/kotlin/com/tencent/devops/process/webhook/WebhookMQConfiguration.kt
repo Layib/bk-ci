@@ -337,6 +337,27 @@ class WebhookMQConfiguration @Autowired constructor() {
         )
     }
 
+    // Gitee 消息队列配置
+    @Bean
+    fun giteeEventExchange(): DirectExchange {
+        val directExchange = DirectExchange(MQ.EXCHANGE_GITEE_BUILD_REQUEST_EVENT, true, false)
+        directExchange.isDelayed = true
+        return directExchange
+    }
+
+    @Bean
+    fun giteeEventQueue(): Queue {
+        return Queue(MQ.QUEUE_GITEE_BUILD_REQUEST_EVENT, true)
+    }
+
+    @Bean
+    fun giteeEventBind(
+        @Autowired giteeEventQueue: Queue,
+        @Autowired giteeEventExchange: DirectExchange
+    ): Binding {
+        return BindingBuilder.bind(giteeEventQueue).to(giteeEventExchange).with(MQ.ROUTE_GITEE_BUILD_REQUEST_EVENT)
+    }
+
     // replay 消息队列配置
     @Bean
     fun replayEventExchange(): DirectExchange {

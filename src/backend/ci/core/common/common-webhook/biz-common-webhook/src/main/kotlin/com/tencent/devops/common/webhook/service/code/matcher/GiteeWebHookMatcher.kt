@@ -25,29 +25,42 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.tencent.devops.process.engine.service.code
+package com.tencent.devops.common.webhook.service.code.matcher
 
-import com.tencent.devops.common.webhook.pojo.code.git.GitEvent
+import com.tencent.devops.common.pipeline.pojo.element.trigger.enums.CodeType
+import com.tencent.devops.common.webhook.pojo.code.WebHookParams
 import com.tencent.devops.common.webhook.pojo.code.gitee.GiteeEvent
-import com.tencent.devops.common.webhook.pojo.code.github.GithubEvent
-import com.tencent.devops.common.webhook.pojo.code.p4.P4Event
-import com.tencent.devops.common.webhook.pojo.code.svn.SvnCommitEvent
-import com.tencent.devops.common.webhook.service.code.matcher.ScmWebhookMatcher
+import com.tencent.devops.common.webhook.service.code.pojo.WebhookMatchResult
+import com.tencent.devops.repository.pojo.CodeGiteeRepository
+import com.tencent.devops.repository.pojo.Repository
+import org.slf4j.LoggerFactory
 
-interface ScmWebhookMatcherBuilder {
+class GiteeWebHookMatcher(
+    override val event: GiteeEvent
+) : AbstractScmWebhookMatcher<GiteeEvent>(event) {
 
-    fun createGitWebHookMatcher(event: GitEvent): ScmWebhookMatcher
+    companion object {
+        private val logger = LoggerFactory.getLogger(GiteeWebHookMatcher::class.java)
+    }
 
-    fun createSvnWebHookMatcher(
-        event: SvnCommitEvent
-    ): ScmWebhookMatcher
+    override fun isMatch(
+        projectId: String,
+        pipelineId: String,
+        repository: Repository,
+        webHookParams: WebHookParams
+    ): WebhookMatchResult {
+        if (repository !is CodeGiteeRepository) {
+            logger.warn("$$pipelineId|the repo($repository) is not code gitee repo for git web hook")
+            return WebhookMatchResult(isMatch = false)
+        }
+        return eventHandler.isMatch(
+            event = event,
+            projectId = projectId,
+            pipelineId = pipelineId,
+            repository = repository,
+            webHookParams = webHookParams
+        )
+    }
 
-    fun createGitlabWebHookMatcher(event: GitEvent): ScmWebhookMatcher
-
-    fun createGithubWebHookMatcher(event: GithubEvent): ScmWebhookMatcher
-
-    fun createP4WebHookMatcher(event: P4Event): ScmWebhookMatcher
-
-    fun createGiteeWebHookMatcher(event: GiteeEvent): ScmWebhookMatcher
-
+    override fun getCodeType() = CodeType.GITEE
 }

@@ -221,6 +221,11 @@ object MQ {
     const val ROUTE_P4_BUILD_REQUEST_EVENT = "r.engine.pipeline.hook.p4.event"
     const val QUEUE_P4_BUILD_REQUEST_EVENT = "q.engine.pipeline.hook.p4.event"
 
+    // Gitee代码仓库webhook请求回调
+    const val EXCHANGE_GITEE_BUILD_REQUEST_EVENT = "e.engine.pipeline.hook.gitee.event"
+    const val ROUTE_GITEE_BUILD_REQUEST_EVENT = "r.engine.pipeline.hook.gitee.event"
+    const val QUEUE_GITEE_BUILD_REQUEST_EVENT = "q.engine.pipeline.hook.gitee.event"
+
     // 代码库webhook重放请求
     const val EXCHANGE_REPLAY_BUILD_REQUEST_EVENT = "e.engine.pipeline.hook.replay.event"
     const val ROUTE_REPLAY_BUILD_REQUEST_EVENT = "r.engine.pipeline.hook.replay.event"

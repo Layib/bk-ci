@@ -25,29 +25,21 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.tencent.devops.process.engine.service.code
+package com.tencent.devops.process.webhook.pojo.event.commit
 
-import com.tencent.devops.common.webhook.pojo.code.git.GitEvent
-import com.tencent.devops.common.webhook.pojo.code.gitee.GiteeEvent
-import com.tencent.devops.common.webhook.pojo.code.github.GithubEvent
-import com.tencent.devops.common.webhook.pojo.code.p4.P4Event
-import com.tencent.devops.common.webhook.pojo.code.svn.SvnCommitEvent
-import com.tencent.devops.common.webhook.service.code.matcher.ScmWebhookMatcher
+import com.tencent.devops.common.event.annotation.Event
+import com.tencent.devops.common.event.dispatcher.pipeline.mq.MQ
+import com.tencent.devops.process.webhook.pojo.event.commit.enum.CommitEventType
 
-interface ScmWebhookMatcherBuilder {
-
-    fun createGitWebHookMatcher(event: GitEvent): ScmWebhookMatcher
-
-    fun createSvnWebHookMatcher(
-        event: SvnCommitEvent
-    ): ScmWebhookMatcher
-
-    fun createGitlabWebHookMatcher(event: GitEvent): ScmWebhookMatcher
-
-    fun createGithubWebHookMatcher(event: GithubEvent): ScmWebhookMatcher
-
-    fun createP4WebHookMatcher(event: P4Event): ScmWebhookMatcher
-
-    fun createGiteeWebHookMatcher(event: GiteeEvent): ScmWebhookMatcher
-
-}
+@Event(MQ.EXCHANGE_GITEE_BUILD_REQUEST_EVENT, MQ.ROUTE_GITEE_BUILD_REQUEST_EVENT)
+data class GiteeWebhookEvent(
+    override var requestContent: String,
+    override var retryTime: Int = 3,
+    override var delayMills: Int = 0,
+    override val commitEventType: CommitEventType = CommitEventType.GITEE
+) : ICodeWebhookEvent(
+    requestContent = requestContent,
+    retryTime = retryTime,
+    delayMills = delayMills,
+    commitEventType = commitEventType
+)

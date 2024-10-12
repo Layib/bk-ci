@@ -93,4 +93,9 @@ interface ExternalScmResource {
     @POST
     @Path("/p4/commit")
     fun webHookCodeP4Commit(body: String): Result<Boolean>
+
+    @Operation(summary = "Gitee仓库提交")
+    @POST
+    @Path("/gitee/commit")
+    fun webHookGiteeCommit(event: String): Result<Boolean>
 }

@@ -32,5 +32,6 @@ enum class CommitEventType {
     GIT,
     GITLAB,
     TGIT,
-    P4
+    P4,
+    GITEE
 }

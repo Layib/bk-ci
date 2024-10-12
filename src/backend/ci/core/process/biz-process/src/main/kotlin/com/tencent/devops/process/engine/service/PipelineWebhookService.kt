@@ -231,6 +231,10 @@ class PipelineWebhookService @Autowired constructor(
                         )
                     }
 
+                ScmType.CODE_GITEE -> {
+                    scmProxyService.addGiteeWebhook(projectId, repositoryConfig, codeEventType)
+                }
+
                 else -> {
                     null
                 }

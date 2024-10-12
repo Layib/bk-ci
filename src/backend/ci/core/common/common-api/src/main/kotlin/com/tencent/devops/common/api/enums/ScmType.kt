@@ -33,7 +33,8 @@ enum class ScmType(val alis: String) {
     CODE_GITLAB("gitlab"),
     GITHUB("github"),
     CODE_TGIT("tgit"),
-    CODE_P4("p4")
+    CODE_P4("p4"),
+    CODE_GITEE("gitee")
     ;
 
     companion object {
@@ -45,6 +46,7 @@ enum class ScmType(val alis: String) {
                 GITHUB -> 4.toShort()
                 CODE_TGIT -> 5.toShort()
                 CODE_P4 -> 6.toShort()
+                CODE_GITEE -> 7.toShort()
             }
         }
 

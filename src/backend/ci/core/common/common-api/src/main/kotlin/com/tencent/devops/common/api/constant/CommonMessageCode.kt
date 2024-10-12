@@ -185,6 +185,9 @@ object CommonMessageCode {
 
     const val SVN_TOKEN_FAIL = "2100135" // SVN Token 不正确
     const val SVN_TOKEN_EMPTY = "2100136" // SVN Token 为空, 请检查代码库的凭证类型
+    const val GITEE_TOKEN_EMPTY = "2100137" // GitLab Token为空
+    const val GITEE_HOOK_URL_EMPTY = "2100138" // GitLab hook url为空
+    const val GITEE_TOKEN_FAIL = "2100139" // GitLab Token不正确
     const val BK_CONTAINER_TIMED_OUT = "bkContainerTimedOut" // 创建容器超时
     const val BK_CREATION_FAILED_EXCEPTION_INFORMATION = "bkCreationFailedExceptionInformation" // 创建失败，异常信息
 

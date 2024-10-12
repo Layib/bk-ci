@@ -152,6 +152,7 @@ const val MATCH_BRANCH = "matchBranch"
 const val MATCH_PATHS = "matchPaths"
 const val GIT_MR_NUMBER = "BK_CI_GIT_MR_NUMBER" // git_mr_number
 const val GITHUB_PR_NUMBER = "BK_CI_GITHUB_PR_NUMBER" // github_pr_number
+const val GITEE_PR_NUMBER = "BK_CI_GITEE_PR_NUMBER" // gitee_pr_number
 
 const val BK_REPO_P4_WEBHOOK_P4PORT = "BK_CI_REPO_P4_WEBHOOK_P4PORT"
 const val BK_REPO_P4_WEBHOOK_EVENT_TYPE = "BK_CI_REPO_P4_WEBHOOK_EVENT_TYPE"

@@ -33,6 +33,7 @@ import com.tencent.devops.common.api.pojo.Result
 import com.tencent.devops.common.web.RestResource
 import com.tencent.devops.process.webhook.CodeWebhookEventDispatcher
 import com.tencent.devops.process.webhook.pojo.event.commit.GitWebhookEvent
+import com.tencent.devops.process.webhook.pojo.event.commit.GiteeWebhookEvent
 import com.tencent.devops.process.webhook.pojo.event.commit.GitlabWebhookEvent
 import com.tencent.devops.process.webhook.pojo.event.commit.P4WebhookEvent
 import com.tencent.devops.process.webhook.pojo.event.commit.SvnWebhookEvent
@@ -121,6 +122,9 @@ class ExternalScmResourceImpl @Autowired constructor(
             )
         )
     }
+
+    override fun webHookGiteeCommit(event: String) =
+        Result(CodeWebhookEventDispatcher.dispatchEvent(rabbitTemplate, GiteeWebhookEvent(requestContent = event)))
 
     companion object {
         private val logger = LoggerFactory.getLogger(ExternalScmResourceImpl::class.java)

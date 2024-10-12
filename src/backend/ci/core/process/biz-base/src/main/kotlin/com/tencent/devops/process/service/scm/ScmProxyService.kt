@@ -50,6 +50,7 @@ import com.tencent.devops.repository.api.scm.ServiceGitResource
 import com.tencent.devops.repository.api.scm.ServiceScmOauthResource
 import com.tencent.devops.repository.api.scm.ServiceScmResource
 import com.tencent.devops.repository.pojo.CodeGitRepository
+import com.tencent.devops.repository.pojo.CodeGiteeRepository
 import com.tencent.devops.repository.pojo.CodeGitlabRepository
 import com.tencent.devops.repository.pojo.CodeP4Repository
 import com.tencent.devops.repository.pojo.CodeSvnRepository
@@ -655,6 +656,25 @@ class ScmProxyService @Autowired constructor(private val client: Client) {
             region = null,
             userName = credential.username,
             event = codeEventType?.name
+        )
+        return repo
+    }
+
+    fun addGiteeWebhook(projectId: String, repositoryConfig: RepositoryConfig, codeEventType: CodeEventType?): Repository {
+        checkRepoID(repositoryConfig)
+        val repo = getRepo(projectId, repositoryConfig) as? CodeGiteeRepository
+            ?: throw ErrorCodeException(errorCode = ProcessMessageCode.GITEE_INVALID)
+        val token = getCredential(projectId, repo).privateKey
+        client.get(ServiceScmResource::class).addWebHook(
+            projectName = repo.projectName,
+            url = repo.url,
+            type = ScmType.CODE_GITEE,
+            privateKey = null,
+            passPhrase = null,
+            token = token,
+            region = null,
+            userName = repo.userName,
+            event = convertEvent(codeEventType)
         )
         return repo
     }
