@@ -39,6 +39,8 @@ data class RepoTriggerEventVo(
     val eventId: Long,
     @get:Schema(title = "代码库ID", required = false)
     val repoHashId: String,
+    @get:Schema(title = "事件类型")
+    val eventType: String,
     @get:Schema(title = "事件描述")
     var eventDesc: I18Variable,
     @get:Schema(title = "触发时间")

@@ -325,6 +325,7 @@ class PipelineTriggerEventService @Autowired constructor(
                 projectId = it.projectId,
                 eventId = it.eventId,
                 repoHashId = it.eventSource,
+                eventType = it.eventType,
                 eventDesc = getEventDescVariable(it.eventDesc),
                 eventTime = it.createTime.timestampmilli(),
                 total = eventDetailsMap[it.eventId]?.total ?: 0,

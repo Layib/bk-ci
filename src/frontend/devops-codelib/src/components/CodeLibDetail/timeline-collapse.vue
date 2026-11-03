@@ -42,6 +42,8 @@
                             <a
                                 v-if="activeIndex === index"
                                 class="one-click-trigger"
+                                :class="{ disabled: item.eventType === 'MANUAL' }"
+                                :aria-disabled="item.eventType === 'MANUAL'"
                                 v-perm="{
                                     hasPermission: curRepo.canUse,
                                     disablePermissionApi: true,
@@ -53,7 +55,7 @@
                                     }
                                 }"
                                 v-bk-tooltips="$t('codelib.重放此事件，符合条件的流水线将触发执行')"
-                                @click.stop="handleReplayAll(eventId)"
+                                @click.stop="handleReplayAll(item)"
                             >
                                 {{ $t('codelib.全部重放') }}
                             </a>
@@ -128,8 +130,10 @@
                                         <div class="cell">
                                             <a
                                                 :class="{
-                                                    'click-trigger': isZH
+                                                    'click-trigger': isZH,
+                                                    'disabled': detail.eventType === 'MANUAL'
                                                 }"
+                                                :aria-disabled="detail.eventType === 'MANUAL'"
                                                 v-perm="{
                                                     hasPermission: curRepo.canUse,
                                                     disablePermissionApi: true,
@@ -262,7 +266,10 @@
             /**
              * 全部重放
              */
-            handleReplayAll (eventId) {
+            handleReplayAll (payload) {
+                if (payload.eventType === 'MANUAL') return
+
+                const { eventId } = payload
                 this.$bkInfo({
                     title: this.$t('codelib.是否全部重放？'),
                     subTitle: this.$t('codelib.将使用此事件重新触发关联的流水线'),
@@ -286,6 +293,8 @@
              * 重新触发
              */
             handleReplay (payload) {
+                if (payload.eventType === 'MANUAL') return
+
                 const { detailId, pipelineName } = payload
                 this.$bkInfo({
                     extCls: 'replay-dialog',
@@ -453,6 +462,10 @@
             .one-click-trigger {
                 font-size: 12px;
                 margin-right: 22px;
+                &.disabled {
+                    color: #c4c6cc;
+                    cursor: not-allowed;
+                }
             }
         }
         .right-shape {
@@ -549,6 +562,10 @@
             .click-trigger {
                 display: inline-block;
                 margin-left: 22px;
+            }
+            .disabled {
+                color: #c4c6cc;
+                cursor: not-allowed;
             }
         }
     }
